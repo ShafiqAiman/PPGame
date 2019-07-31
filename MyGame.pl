@@ -166,4 +166,4 @@ oplay(Brd,NewBrd) :-
   not(member(a,Brd)),!,
   write('Game Ended without Winner!'), nl,
   NewBrd = Brd, false.
-hi
+
