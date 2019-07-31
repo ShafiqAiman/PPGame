@@ -2,7 +2,7 @@
 
 play:- how_to_play, read(X), scene(X).
 
-how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl, 
+how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
 		write('You are a knight.'),nl,
 		write('Your princess was taken away by a dragon into a cave.'),nl,
@@ -12,15 +12,20 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		write('Press a for YES'),nl,
 		write('Press b for NO'),nl.
 
-scene(X) :-	(X \= 'a' -> write('Press a with . lah macha'),nl,nl, how_to_play, nl); 
-		(X = 'a' -> satu, read(Y), ques1(Y)).
+scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
+		write('You dont deserve to be knight!'),nl,
+		write('The princess is died because of you! Bye!'),false);
+		(X = 'a' -> nl,write('There are three levels that you need to pass in order to save the princess'),nl,
+		write('Each level has different challenge.'),nl,
+		write('Goodluck!'),nl,
+		satu, read(Y), ques1(Y)).
 
 satu :-		nl, write('LEVEL 1'),nl,nl,
 		write('You are stranded in an underground tunnel in the SAHARA desert.'),nl,
 		write('You start walking to find an EXIT.'),nl,
 		write('You stumble upon a group of men with machine GUNS.'),nl,
 		write('You start running away from them.'),nl,
-		write('You meet a LOCKED DOOR.'),nl,		
+		write('You meet a LOCKED DOOR.'),nl,
 		write('To open the door, you have to SOLVE a RIDDLE...'),nl,
 		riddle.
 
@@ -30,20 +35,20 @@ riddle :-	nl, write('The riddle goes--'),nl,nl,
 		write('b. The office'),nl,
 		write('c. The School'),nl,
 		write('d. The Train station'),nl,
-		write('Your move?'),nl,nl. 
+		write('Your move?'),nl,nl.
 
-ques1(G) :-	(G = 'a' -> write('You are correct. Please proceed.'),nl,nl, dua); (G \= 'a' -> write('WRONG ANSWER!! BYE BYE')), false.  
+ques1(G) :-	(G = 'a' -> write('You are correct. Please proceed.'),nl,nl, dua); (G \= 'a' -> write('WRONG ANSWER!! BYE BYE')), false.
 
 dua :-		nl, write('LEVEL 2'),nl,nl,
 		write('You are now in a DUNGEON.'),nl,
 		write('You search the dungeon for a key.'),nl,
 		write('You stumble upon a treasure chest that you suspect has the key inside.'),nl,
 		write('The treasure chest is locked.'),nl,
-		write('You try to unlock the chest.'),nl,		
+		write('You try to unlock the chest.'),nl,
 		write('To unlock the chest, you have 1 TRY to find the key in the boxes below...'),nl,nl,
 		write('Find the box with the k logo.'),nl,
 		write('Select the number to unlock each box'),nl,
-		ques2.	
+		ques2.
 
 ques2 :-	disp([1,2,3,4,5,6,7,8,9]), stt([a,a,a,a,a,a,a,a,a]).
 
@@ -69,19 +74,19 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 %xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
 
-wins(Ulst) :- 	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,nl, tiga); write('BYE BYE!'),false,nl,nl.
+wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,nl, tiga); write('BYE BYE!'),false,nl,nl.
 
-tiga :- 	nl, write('LEVEL 3'),nl,nl,
+tiga :-		nl, write('LEVEL 3'),nl,nl,
 		write('You are out of the dungeon.'),nl,
 		write('You are now almost out of the tunnel.'),nl,
 		write('On your out of the tunnel, you encounter SKELETON KING.'),nl,
 		write('To exit the tunnel, you have to win a game against the king.'),nl,
-		write('The King challenges you to a game of tictactoe.'),nl,		
+		write('The King challenges you to a game of tictactoe.'),nl,
 		write('Defeat the King and you will have FREEDOM...'),nl,nl,
 		queslast,nl,nl.
 
 %start tictactoe
-queslast :-	how_to_plays, strt([a,a,a,a,a,a,a,a,a]). 	
+queslast :-	how_to_plays, strt([a,a,a,a,a,a,a,a,a]).
 
 win(Brd, Plyr) :- rwin(Brd, Plyr);
                   cwin(Brd, Plyr);
