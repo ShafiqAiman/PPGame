@@ -6,10 +6,10 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
 		write('You are a knight.'),nl,
 		write('Your princess was taken away by a dragon into a cave.'),nl,
-		write('You are in front of the cave now.'),nl,nl,
-		%write('Good Luck!'),nl,nl,
+		write('You are in front of the cave now.'),nl,
+		write('Good Luck!'),nl,nl,
 		write('Are you brave enough to risk your own life to save the princess from the dragon?'),nl,
-		write('Press a for YES'),nl,
+		write('Press a for YES'),nl.
 		write('Press b for NO'),nl.
 
 scene(X) :-	(X \= 'a' -> write('Press a with . lah macha'),nl,nl, how_to_play, nl); 
