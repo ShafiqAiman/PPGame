@@ -15,9 +15,11 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('You dont deserve to be knight!'),nl,
 		write('The princess is died because of you! Bye!'),false);
-		(X = 'a' -> nl,write('There are three levels that you need to pass in order to save the princess'),nl,
+		(X = 'a' -> nl,write('--------------------------------------------------------------------------'),nl,
+		write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge.'),nl,
 		write('Goodluck!'),nl,
+		write('--------------------------------------------------------------------------'),nl,
 		satu, read(Y), ques1(Y)).
 
 satu :-		nl, write('LEVEL 1'),nl,nl,
