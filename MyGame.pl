@@ -1,6 +1,6 @@
 %MyGame
 
-play:- how_to_play, read(X), scene(X).
+play :- how_to_play, read(X), scene(X).
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
@@ -17,7 +17,7 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('The princess is died because of you! Bye!'),false);
 		(X = 'a' -> nl,write('--------------------------------------------------------------------------'),nl,
 		write('There are three levels that you need to pass in order to save the princess'),nl,
-		write('Each level has different challenge.'),nl,
+		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,
 		write('--------------------------------------------------------------------------'),nl,
 		satu, read(Y), ques1(Y)).
@@ -32,14 +32,17 @@ satu :-		nl, write('LEVEL 1'),nl,nl,
 		riddle.
 
 riddle :-	nl, write('The riddle goes--'),nl,nl,
-		write('What building has the most stories?'),nl,
-		write('a. The library'),nl,
-		write('b. The office'),nl,
-		write('c. The School'),nl,
-		write('d. The Train station'),nl,
-		write('Your move?'),nl,nl.
+		write('Which dragon is used by Harry Potter during Triwizard Tournament?'),nl,
+		write('a. Antipodean Opaleye'),nl,
+		write('b. Norwegian Ridgeback'),nl,
+		write('c. Hungarian Horntail'),nl,
+		write('d. Ukrainian Ironbelly'),nl,
+		write('Your move?'),nl,nl,
+		read(G),ques1(G).
 
-ques1(G) :-	(G = 'a' -> write('You are correct. Please proceed.'),nl,nl, dua); (G \= 'a' -> write('WRONG ANSWER!! BYE BYE')), false.
+ques1(G) :-	(G = 'c' -> nl,write('You are correct. Please proceed.'),nl,nl, dua);
+		(G \= 'c' -> nl,write('You have given a wrong answer.'), nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,riddle).
 
 dua :-		nl, write('LEVEL 2'),nl,nl,
 		write('You are now in a DUNGEON.'),nl,
