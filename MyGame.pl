@@ -15,23 +15,26 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('You dont deserve to be knight!'),nl,
 		write('The princess is died because of you! Bye!'),false);
-		(X = 'a' -> nl,write('--------------------------------------------------------------------------'),nl,
+		(X = 'a' -> nl,
 		write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,
-		write('--------------------------------------------------------------------------'),nl,
 		satu, read(Y), ques1(Y)).
 
-satu :-		nl, write('LEVEL 1'),nl,nl,
-		write('You are stranded in an underground tunnel in the SAHARA desert.'),nl,
-		write('You start walking to find an EXIT.'),nl,
+satu :-		write('--------------------------------------------------------------------------'),nl,
+		nl, write('LEVEL 1'),nl,nl,
+		write('Now you have entered the cave'),nl,
+		
+		write('You are given 100% health'),nl,
 		write('You stumble upon a group of men with machine GUNS.'),nl,
 		write('You start running away from them.'),nl,
 		write('You meet a LOCKED DOOR.'),nl,
 		write('To open the door, you have to SOLVE a RIDDLE...'),nl,
 		riddle.
 
+
 riddle :-	nl, write('The riddle goes--'),nl,nl,
+		write('Health = '),nl,
 		write('Which dragon is used by Harry Potter during Triwizard Tournament?'),nl,
 		write('a. Antipodean Opaleye'),nl,
 		write('b. Norwegian Ridgeback'),nl,
@@ -42,9 +45,11 @@ riddle :-	nl, write('The riddle goes--'),nl,nl,
 
 ques1(G) :-	(G = 'c' -> nl,write('You are correct. Please proceed.'),nl,nl, dua);
 		(G \= 'c' -> nl,write('You have given a wrong answer.'), nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,riddle).
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),
+		H is H-30,nl,riddle).
 
-dua :-		nl, write('LEVEL 2'),nl,nl,
+dua :-		nl,write('--------------------------------------------------------------------------'),nl,
+		write('LEVEL 2'),nl,nl,
 		write('You are now in a DUNGEON.'),nl,
 		write('You search the dungeon for a key.'),nl,
 		write('You stumble upon a treasure chest that you suspect has the key inside.'),nl,
