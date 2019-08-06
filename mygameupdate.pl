@@ -153,13 +153,12 @@ lvl3 :-		nl, write('LEVEL 3'),nl,nl,
 		write('You try to unlock the chest.'),nl,
 		write('To unlock the chest, you have 1 TRY to find the key in the boxes below...'),nl,nl,
 		write('Find the box with the k logo.'),nl,
-		write('Select the number to unlock each box'),nl,
-		ques3.
+		write('Select the number to unlock each box'),nl,ques3.
 
 ques3 :-	disp([1,2,3,4,5,6,7,8,9]), stt([a,a,a,a,a,a,a,a,a]).
 
 disp([A,B,C,D,E,F,G,H,I]) :-
-	write('|'),
+	nl,write('|'),
 	write([A,B,C]),write('|'),nl,
 	write('|'),
 	write([D,E,F]),write('|'),nl,	write('|'),
@@ -180,5 +179,12 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 %xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,true); write('BYE BYE!'),ques3,nl,nl.
+wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key!.'),nl,congrat); write('BYE BYE!'),nl,ques3.
 
+congrat :- write('The princess is saved'),true,nl,
+	   write('Do you want to play again ? y or n'),nl,
+	   read(P),rep(P).
+
+rep(P) :- (P = 'y' -> nl,play,nl);
+       (P = 'n' -> nl,write('Bye Bye'),nl,
+        write('Hope you enjoy the game'),write('.')),true.
