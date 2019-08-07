@@ -149,7 +149,7 @@ oplay(Brd,NewBrd) :-
   not(member(a,Brd)),!,
   write('Game Ended without Winner!'), nl,
   NewBrd = Brd, nl,
-  write('Let us play anothe round'),nl,ques2.
+  write('Let us play another round'),nl,ques2.
 
 
 
@@ -187,14 +187,18 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 %xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You have killed the dragon.'),nl,congrat); write('BYE BYE!'),nl,ques3.
+wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You have killed the dragon.'),nl,congrat,nl,play_again); write('BYE BYE!'),nl,ques3.
 
 congrat :- write('The princess is saved'),nl,
 	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
-	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),true,nl,nl,
-	   write('Do you want to play again ? y or n'),nl,
-	   read(P),rep(P).
+	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),nl.
+
+
+play_again :-  write('Do you want to play again ? y or n'),nl,
+	       read(P),rep(P).
 
 rep(P) :- (P = 'y' -> nl,play,nl);
           (P = 'n' -> nl,write('Bye Bye'),nl,
-           write('Hope you enjoy the game'),false).
+           write('Hope you enjoy the game'),false);
+	  (nl,write('You have key in the wrong input'),nl,nl,play_again).
+
