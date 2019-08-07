@@ -4,7 +4,7 @@ head([H|_], H).
 
 play      :-	retractall(health(_, _)), assertz(health(1, 100)), how_to_play, read(X), scene(X).
 
-healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 30, retractall(health(_, _)), assertz(health(1, C)).
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20,(C > 0 -> retractall(health(_, _)), assertz(health(1, C)));(false) .
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		write('Rules.'),nl,
@@ -47,8 +47,8 @@ ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
 		 write('You have acquired the ultimate weapon from the mage.'),nl,
 		 write('You can procced to the next level.'),nl,nl, lvl2);
                 (G \= 'c' ->
-		write('You have given a wrong answer.'),nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),healthdeduction,nl,
+		healthdeduction,write('You have given a wrong answer.'),nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,
 		riddle).
 
 lvl2 :-		nl,write('------------------------------------------------------------------------------------------------------------'),
@@ -119,7 +119,7 @@ how_to_plays :-
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
 
-strt(Brd) :- win(Brd, x), write('You win!'),true, lvl3.
+strt(Brd) :- win(Brd, x), write('You win!'), lvl3.
 strt(Brd) :- win(Brd, o), write('King win!'), ques2.
 strt(Brd) :- read(N),
   xplay(Brd, N, NewBrd),
@@ -187,14 +187,15 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 %xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
 
+rep(P) :- (P = 'y' -> nl,play,nl);
+          (P = 'n' -> write('Thank you Bye bye !'),false).
+
 wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You have killed the dragon.'),nl,congrat); write('BYE BYE!'),nl,ques3.
 
 congrat :- write('The princess is saved'),nl,
 	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
-	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),true,nl,nl,
+	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),nl,nl,
 	   write('Do you want to play again ? y or n'),nl,
 	   read(P),rep(P).
 
-rep(P) :- (P = 'y' -> nl,play,nl);
-          (P = 'n' -> nl,write('Bye Bye'),nl,
-           write('Hope you enjoy the game'),false).
+
