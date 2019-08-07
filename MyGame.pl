@@ -6,7 +6,7 @@ head([H|_], H).
 
 play :- retractall(health(_, _)), assertz(health(1, 100)) ,how_to_play, read(X), scene(X).
 
-healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20, retractall(health(_, _)), assertz(health(1, C)).
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20,(C > 0 -> retractall(health(_, _)), assertz(health(1, C)));(false) .
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
@@ -50,8 +50,8 @@ riddle :-	nl, write('The riddle goes--'),nl,nl,
 		read(G),ques1(G).
 
 ques1(G) :-	(G = 'c' -> nl,write('You are correct. Please proceed.'),nl,nl, dua);
-		(G \= 'c' -> nl,write('You have given a wrong answer.'), nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),healthdeduction,
+		(G \= 'c' -> nl,healthdeduction,write('You have given a wrong answer.'), nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),
 		nl,riddle).
 
 dua :-		nl,write('--------------------------------------------------------------------------'),nl,
