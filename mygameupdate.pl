@@ -1,13 +1,17 @@
 %MyGame
 
-play      :-	how_to_play, read(X), scene(X).
+head([H|_], H).
+
+play      :-	retractall(health(_, _)), assertz(health(1, 100)), how_to_play, read(X), scene(X).
+
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 30, retractall(health(_, _)), assertz(health(1, C)).
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
-		%write('Rules.'),nl,
+		write('Rules.'),nl,
 		write('You are a knight.'),nl,
 		write('Your princess was taken away by a dragon into a cave.'),nl,
 		write('You are in front of the cave now.'),nl,nl,
-		%write('Good Luck!'),nl,nl,
+		write('Good Luck!'),nl,nl,
 		write('Are you brave enough to risk your own life to save the princess from the dragon?'),nl,
 		write('Press a for YES'),nl,
 		write('Press b for NO'),nl.
@@ -20,31 +24,35 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('Goodluck!'),nl,nl,
 		lvl1, read(Y), ques1(Y)).
 
-lvl1 :-		nl, write('LEVEL 1'),nl,nl,
-		write('You are stranded in an underground tunnel in the SAHARA desert.'),nl,
-		write('You start walking to find an EXIT.'),nl,
-		write('You stumble upon a group of men with machine GUNS.'),nl,
-		write('You start running away from them.'),nl,
-		write('You meet a LOCKED DOOR.'),nl,
-		write('To open the door, you have to SOLVE a RIDDLE...'),nl,
+lvl1 :-		write('------------------------------------------------------------------------------------------------------------'),nl,
+		nl, write('LEVEL 1'),nl,nl,
+		write('You are given 100% health.'),nl,nl,
+		write('Now you have entered the cave'),nl,
+		write('In this level you will meet a mage who will provide you an ultimate weapon that can help to slay the dragon'),nl,nl,
+		write('After awhile, you finally meet the mage'),nl,
+		write('However, in order to acquire the weapon, you have to SOLVE a RIDDLE...'),nl,
 		riddle.
 
 riddle :-	nl, write('The riddle goes--'),nl,nl,
-		write('What building has the most stories?'),nl,
-		write('a. The library'),nl,
-		write('b. The office'),nl,
-		write('c. The School'),nl,
-		write('d. The Train station'),nl,
+		findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
+		write('Which dragon is used by Harry Potter during Triwizard Tournament?'),nl,
+		write('a. Antipodean Opaleye'),nl,
+		write('b. Norwegian Ridgeback'),nl,
+		write('c. Hungarian Horntail'),nl,
+		write('d. Ukrainian Ironbelly'),nl,
 		write('Your move?'),nl,nl,
 		read(G),ques1(G).
 
-ques1(G) :-	(G = 'a' -> write('You are correct. Please proceed.'),nl,nl, lvl2);
-                (G \= 'a' ->
+ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
+		 write('You have acquired the ultimate weapon from the mage.'),nl,
+		 write('You can procced to the next level.'),nl,nl, lvl2);
+                (G \= 'c' ->
 		write('You have given a wrong answer.'),nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),healthdeduction,nl,
 		riddle).
 
-lvl2 :-		nl, write('LEVEL 2'),nl,nl,
+lvl2 :-		nl,write('------------------------------------------------------------------------------------------------------------'),
+	        nl, write('LEVEL 2'),nl,nl,
 		write('You are out of the dungeon.'),nl,
 		write('You are now almost out of the tunnel.'),nl,
 		write('On your out of the tunnel, you encounter SKELETON KING.'),nl,
@@ -179,12 +187,14 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 %xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key!.'),nl,congrat); write('BYE BYE!'),nl,ques3.
+wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You have killed the dragon.'),nl,congrat); write('BYE BYE!'),nl,ques3.
 
-congrat :- write('The princess is saved'),true,nl,
+congrat :- write('The princess is saved'),nl,
+	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
+	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),true,nl,nl,
 	   write('Do you want to play again ? y or n'),nl,
 	   read(P),rep(P).
 
 rep(P) :- (P = 'y' -> nl,play,nl);
-       (P = 'n' -> nl,write('Bye Bye'),nl,
-        write('Hope you enjoy the game'),write('.')),true.
+          (P = 'n' -> nl,write('Bye Bye'),nl,
+           write('Hope you enjoy the game'),false).
