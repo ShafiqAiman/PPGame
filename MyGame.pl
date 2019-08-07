@@ -1,6 +1,12 @@
 %MyGame
 
-play :- how_to_play, read(X), scene(X).
+head([H|_], H).
+
+
+
+play :- retractall(health(_, _)), assertz(health(1, 100)) ,how_to_play, read(X), scene(X).
+
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 30, retractall(health(_, _)), assertz(health(1, C)).
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
@@ -34,7 +40,7 @@ satu :-		write('----------------------------------------------------------------
 
 
 riddle :-	nl, write('The riddle goes--'),nl,nl,
-		write('Health = '),nl,
+		findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
 		write('Which dragon is used by Harry Potter during Triwizard Tournament?'),nl,
 		write('a. Antipodean Opaleye'),nl,
 		write('b. Norwegian Ridgeback'),nl,
@@ -45,8 +51,8 @@ riddle :-	nl, write('The riddle goes--'),nl,nl,
 
 ques1(G) :-	(G = 'c' -> nl,write('You are correct. Please proceed.'),nl,nl, dua);
 		(G \= 'c' -> nl,write('You have given a wrong answer.'), nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),
-		H is H-30,nl,riddle).
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),healthdeduction,
+		nl,riddle).
 
 dua :-		nl,write('--------------------------------------------------------------------------'),nl,
 		write('LEVEL 2'),nl,nl,
