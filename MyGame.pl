@@ -6,7 +6,7 @@ head([H|_], H).
 
 play :- retractall(health(_, _)), assertz(health(1, 100)) ,how_to_play, read(X), scene(X).
 
-healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 30, retractall(health(_, _)), assertz(health(1, C)).
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20, retractall(health(_, _)), assertz(health(1, C)).
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		%write('Rules.'),nl,
