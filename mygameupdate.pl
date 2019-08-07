@@ -115,12 +115,13 @@ dispa([A,B,C,D,E,F,G,H,I]) :-
 %go :- how_to_play, strt([a,a,a,a,a,a,a,a,a]).
 
 how_to_plays :-
+  findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl, 
   write('You are x player, enter positions followed by a period.'),
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
 
 strt(Brd) :- win(Brd, x), write('You win!'), lvl3.
-strt(Brd) :- win(Brd, o), write('King win!'), ques2.
+strt(Brd) :- win(Brd, o), write('King win!'),healthdeduction, ques2.
 strt(Brd) :- read(N),
   xplay(Brd, N, NewBrd),
   dispa(NewBrd),
