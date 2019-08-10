@@ -6,10 +6,10 @@ head([H|_], H).
 
 play :- retractall(health(_, _)), assertz(health(1, 100)) ,how_to_play, read(X), scene(X).
 
-healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20, retractall(health(_, _)), assertz(health(1, C)).
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20,(C > 0 -> retractall(health(_, _)), assertz(health(1, C)));(false) .
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
-		%write('Rules.'),nl,
+		
 		write('You are a knight.'),nl,
 		write('Your princess was taken away by a dragon into a cave.'),nl,
 		write('You are in front of the cave now.'),nl,nl,
@@ -30,12 +30,14 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 satu :-		write('--------------------------------------------------------------------------'),nl,
 		nl, write('LEVEL 1'),nl,nl,
 		write('Now you have entered the cave'),nl,
-		
-		write('You are given 100% health'),nl,
-		write('You stumble upon a group of men with machine GUNS.'),nl,
-		write('You start running away from them.'),nl,
-		write('You meet a LOCKED DOOR.'),nl,
-		write('To open the door, you have to SOLVE a RIDDLE...'),nl,
+		write('Based on legendary, the outsider needs to face three levels in order to go to The Chamber of Dragon inside the cave.'),nl,nl,
+		write('First Level - Dwarf Riddle'),nl,
+		write('Second Level - Mage Tic Tac Toe'),nl,
+		write('Third Level - Killing the Dragon'),nl,nl,
+		write('You are given 100% health'),nl,nl,
+		write('LEVEL 1 - Dwarf Riddle'),nl,nl,
+		write('The dwarf blocked you from going deeper into the cave.'),nl,
+		write('However, he will allow you to pass if you solve a RIDDLE..'),nl,
 		riddle.
 
 
@@ -49,14 +51,14 @@ riddle :-	nl, write('The riddle goes--'),nl,nl,
 		write('Your move?'),nl,nl,
 		read(G),ques1(G).
 
-ques1(G) :-	(G = 'c' -> nl,write('You are correct. Please proceed.'),nl,nl, dua);
-		(G \= 'c' -> nl,write('You have given a wrong answer.'), nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),healthdeduction,
+ques1(G) :-	(G = 'c' -> nl,write('Your answer is correct ! The dwarf allows you to pass and he rewards you a Dragon Chamber key!'),nl,nl, dua);
+		(G \= 'c' -> nl,healthdeduction,write('You have given a wrong answer.'), nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),
 		nl,riddle).
 
 dua :-		nl,write('--------------------------------------------------------------------------'),nl,
 		write('LEVEL 2'),nl,nl,
-		write('You are now in a DUNGEON.'),nl,
+		write('You are now in front of The Gate of Dragon Chamber!'),nl,
 		write('You search the dungeon for a key.'),nl,
 		write('You stumble upon a treasure chest that you suspect has the key inside.'),nl,
 		write('The treasure chest is locked.'),nl,
@@ -88,11 +90,12 @@ move([A,B,C,D,E,a,G,H,I], 6, [A,B,C,D,E,a,G,H,I]).
 move([A,B,C,D,E,F,a,H,I], 7, [A,B,C,D,E,F,a,H,I]).
 move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
-%xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
+
 
 wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,nl, tiga); write('BYE BYE!'),false,nl,nl.
 
-tiga :-		nl, write('LEVEL 3'),nl,nl,
+tiga :- nl,write('--------------------------------------------------------------------------'),nl,
+		write('LEVEL 3'),nl,nl,
 		write('You are out of the dungeon.'),nl,
 		write('You are now almost out of the tunnel.'),nl,
 		write('On your out of the tunnel, you encounter SKELETON KING.'),nl,
@@ -141,7 +144,7 @@ xmove([A,B,C,D,E,a,G,H,I], 6, [A,B,C,D,E,x,G,H,I]).
 xmove([A,B,C,D,E,F,a,H,I], 7, [A,B,C,D,E,F,x,H,I]).
 xmove([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,x,I]).
 xmove([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,x]).
-%xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
+
 
 
 dispa([A,B,C,D,E,F,G,H,I]) :-
@@ -152,7 +155,7 @@ dispa([A,B,C,D,E,F,G,H,I]) :-
         write([G,H,I]),write('|'),nl,nl.
 
 
-%go :- how_to_play, strt([a,a,a,a,a,a,a,a,a]).
+
 
 how_to_plays :-
   write('You are x player, enter positions followed by a period.'),

@@ -24,13 +24,12 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('Goodluck!'),nl,nl,
 		lvl1, read(Y), ques1(Y)).
 
-lvl1 :-		write('------------------------------------------------------------------------------------------------------------'),nl,
-		nl, write('LEVEL 1'),nl,nl,
-		write('You are given 100% health.'),nl,nl,
+lvl1 :-		write('--------------------------------------------------------------------------'),nl,
+		nl, write('LEVEL 1 - Dwarf Riddle'),nl,nl,
 		write('Now you have entered the cave'),nl,
-		write('In this level you will meet a mage who will provide you an ultimate weapon that can help to slay the dragon'),nl,nl,
-		write('After awhile, you finally meet the mage'),nl,
-		write('However, in order to acquire the weapon, you have to SOLVE a RIDDLE...'),nl,
+		write('You are given 100% health'),nl,nl,
+		write('After a mile walking, a dwarf blocked you from going deeper into the cave.'),nl,
+		write('However, he will allow you to pass if you solve a RIDDLE..'),nl,
 		riddle.
 
 riddle :-	nl, write('The riddle goes--'),nl,nl,
@@ -48,17 +47,17 @@ ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
 		 write('You can procced to the next level.'),nl,nl, lvl2);
                 (G \= 'c' ->
 		healthdeduction,write('You have given a wrong answer.'),nl,
-		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,
+		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,nl,
 		riddle).
 
 lvl2 :-		nl,write('------------------------------------------------------------------------------------------------------------'),
-	        nl, write('LEVEL 2'),nl,nl,
-		write('You are out of the dungeon.'),nl,
-		write('You are now almost out of the tunnel.'),nl,
-		write('On your out of the tunnel, you encounter SKELETON KING.'),nl,
-		write('To exit the tunnel, you have to win a game against the king.'),nl,
-		write('The King challenges you to a game of tictactoe.'),nl,
-		write('Defeat the King and you will have FREEDOM...'),nl,nl,
+	        nl, write('LEVEL 2 - Mage Tic Tac Toe'),nl,nl,
+		write('You are now in the middle of the cave.'),nl,
+		write('Suddenly, you are trapped inside a magic spell'),nl,
+		write('A mage then appears.'),nl,
+		write('To escape from that magic spell, you have to win a game against the mage'),nl,
+		write('The Mage challenges you to a game of tictactoe.'),nl,
+		write('Defeat the Mage and you can get a chance to save the princess!'),nl,nl,
 		ques2,nl,nl.
 
 %start tictactoe
@@ -170,12 +169,21 @@ disp([A,B,C,D,E,F,G,H,I]) :-
 	nl,write('|'),
 	write([A,B,C]),write('|'),nl,
 	write('|'),
-	write([D,E,F]),write('|'),nl,	write('|'),
-        write([G,H,I]),write('|'),nl,nl.
+	write([D,E,F]),write('|'),nl,write('|'),
+    write([G,H,I]),write('|'),nl,nl,
+	write('1- Upper Left Wing'),nl,
+	write('2- Head'),nl,
+	write('3- Right Wing'),nl,
+	write('4- Lower Left Wing'),nl,
+	write('5- Heart'),nl,
+	write('6- Lower Right Wing'),nl,
+	write('7- Left Leg'),nl,
+	write('8- Tail'),nl,
+	write('9- Right Leg'),nl,nl.
+	
 
 stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), disp(Ulst), wins(Ulst) .
 
-%ctr(R) :- (((R > 0) , (R < 4)) -> strt([a,a,a,a,a,a,a,a,a]), ctr(R-1)); (R > 4 -> tiga); (R < 1, write('OUT OF MOVES!! BYE BYE'),nl,nl), false.
 
 move([a,B,C,D,E,F,G,H,I], 1, [a,B,C,D,E,F,G,H,I]).
 move([A,a,C,D,E,F,G,H,I], 2, [A,a,C,D,E,F,G,H,I]).
@@ -186,7 +194,7 @@ move([A,B,C,D,E,a,G,H,I], 6, [A,B,C,D,E,a,G,H,I]).
 move([A,B,C,D,E,F,a,H,I], 7, [A,B,C,D,E,F,a,H,I]).
 move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
-%xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
+
 
 rep(P) :- (P = 'y' -> nl,play,nl);
           (P = 'n' -> write('Thank you Bye bye !'),false).
