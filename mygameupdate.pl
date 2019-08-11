@@ -114,7 +114,7 @@ dispa([A,B,C,D,E,F,G,H,I]) :-
 %go :- how_to_play, strt([a,a,a,a,a,a,a,a,a]).
 
 how_to_plays :-
-  findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl, 
+  findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
   write('You are x player, enter positions followed by a period.'),
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
@@ -153,15 +153,13 @@ oplay(Brd,NewBrd) :-
 
 
 
-lvl3 :-		nl, write('LEVEL 3'),nl,nl,
-		write('You are now in a DUNGEON.'),nl,
-		write('You search the dungeon for a key.'),nl,
-		write('You stumble upon a treasure chest that you suspect has the key inside.'),nl,
-		write('The treasure chest is locked.'),nl,
-		write('You try to unlock the chest.'),nl,
-		write('To unlock the chest, you have 1 TRY to find the key in the boxes below...'),nl,nl,
-		write('Find the box with the k logo.'),nl,
-		write('Select the number to unlock each box'),nl,ques3.
+lvl3 :-		write('--------------------------------------------------------------------------'),
+	        nl, write('LEVEL 3 - Killing Dragon'),nl,nl,
+		write('Finally,you reached to The Chamber of Dragon!'),nl,
+		write('You need to kill the dragon in order to save the princess!'),nl,
+		write('The diagram below is the body parts of dragon.'),nl,
+		write('You need to determine which body part of dragon that needs to be attacked in order to defeat it!'),nl,
+		write('Select the number to attack that body part of dragon.'),nl,ques3.
 
 ques3 :-	disp([1,2,3,4,5,6,7,8,9]), stt([a,a,a,a,a,a,a,a,a]).
 
@@ -170,17 +168,17 @@ disp([A,B,C,D,E,F,G,H,I]) :-
 	write([A,B,C]),write('|'),nl,
 	write('|'),
 	write([D,E,F]),write('|'),nl,write('|'),
-    write([G,H,I]),write('|'),nl,nl,
-	write('1- Upper Left Wing'),nl,
+	write([G,H,I]),write('|'),nl,nl,
+	write('1- Left Wing'),nl,
 	write('2- Head'),nl,
 	write('3- Right Wing'),nl,
-	write('4- Lower Left Wing'),nl,
+	write('4- Left Hand'),nl,
 	write('5- Heart'),nl,
-	write('6- Lower Right Wing'),nl,
+	write('6- Right Hand'),nl,
 	write('7- Left Leg'),nl,
 	write('8- Tail'),nl,
 	write('9- Right Leg'),nl,nl.
-	
+
 
 stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), disp(Ulst), wins(Ulst) .
 
