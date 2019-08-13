@@ -158,7 +158,7 @@ oplay(Brd,NewBrd) :-
 
 
 
-lvl3 :-		write('--------------------------------------------------------------------------'),
+lvl3 :-		nl,write('--------------------------------------------------------------------------'),
 	        nl, write('LEVEL 3 - Killing Dragon'),nl,nl,
 		write('Finally,you reached to The Chamber of Dragon!'),nl,
 		write('You need to kill the dragon in order to save the princess!'),nl,
