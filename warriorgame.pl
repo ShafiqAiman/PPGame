@@ -121,9 +121,10 @@ how_to_plays :-
 
 strt(Brd) :- win(Brd, x), write('You win!'),nl,write('You escaped the magic spell.'),nl,write('You can now head to The Chamber of Dragon to save your pricess.'),true, lvl3.
 strt(Brd) :- win(Brd, o), write('Mage win!'),healthdeduction,nl,write('You are hurt by the magic spell.'),nl,write('However, the mage offers you another chance to get rid of the magic spell.'),ques2.
-strt(Brd) :- read(N),
+strt(Brd) :- read(N),nl, write('User :'),nl,
   xplay(Brd, N, NewBrd),
   dispa(NewBrd),
+  write('Computer : '),nl,
   oplay(NewBrd, NewnewBrd),
   dispa(NewnewBrd),
   strt(NewnewBrd).
