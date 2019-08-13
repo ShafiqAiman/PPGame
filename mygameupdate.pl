@@ -22,7 +22,7 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		(X = 'a' -> nl,write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,nl,
-		lvl1, read(Y), ques1(Y)).
+		lvl1).
 
 lvl1 :-		write('--------------------------------------------------------------------------'),nl,
 		nl, write('LEVEL 1 - Dwarf Riddle'),nl,nl,
@@ -100,7 +100,7 @@ xmove([A,B,C,D,E,-,G,H,I], 6, [A,B,C,D,E,x,G,H,I]).
 xmove([A,B,C,D,E,F,-,H,I], 7, [A,B,C,D,E,F,x,H,I]).
 xmove([A,B,C,D,E,F,G,-,I], 8, [A,B,C,D,E,F,G,x,I]).
 xmove([A,B,C,D,E,F,G,H,-], 9, [A,B,C,D,E,F,G,H,x]).
-%xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
+
 
 
 dispa([A,B,C,D,E,F,G,H,I]) :-
@@ -111,7 +111,6 @@ dispa([A,B,C,D,E,F,G,H,I]) :-
         write([G,H,I]),write('|'),nl,nl.
 
 
-%go :- how_to_play, strt([a,a,a,a,a,a,a,a,a]).
 
 how_to_plays :-
   findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
@@ -119,7 +118,7 @@ how_to_plays :-
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
 
-strt(Brd) :- win(Brd, x), write('You win!'), lvl3.
+strt(Brd) :- win(Brd, x), write('You win!'),nl, lvl3.
 strt(Brd) :- win(Brd, o), write('King win!'),healthdeduction, ques2.
 strt(Brd) :- read(N),
   xplay(Brd, N, NewBrd),
@@ -148,8 +147,7 @@ oplay(Brd,NewBrd) :-
 oplay(Brd,NewBrd) :-
   not(member(a,Brd)),!,
   write('Game Ended without Winner!'), nl,
-  NewBrd = Brd, nl,
-  write('Let us play anothe round'),nl,ques2.
+  NewBrd = Brd, false.
 
 
 
@@ -180,7 +178,7 @@ disp([A,B,C,D,E,F,G,H,I]) :-
 	write('9- Right Leg'),nl,nl.
 
 
-stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), disp(Ulst), wins(Ulst) .
+stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), wins(Ulst) .
 
 
 move([a,B,C,D,E,F,G,H,I], 1, [a,B,C,D,E,F,G,H,I]).

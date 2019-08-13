@@ -25,15 +25,10 @@ scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,
-		satu, read(Y), ques1(Y)).
+		satu).
 
-satu :-		write('--------------------------------------------------------------------------'),nl,
-		nl, write('LEVEL 1'),nl,nl,
+satu :-		write('--------------------------------------------------------------------------'),nl,nl,
 		write('Now you have entered the cave'),nl,
-		write('Based on legendary, the outsider needs to face three levels in order to go to The Chamber of Dragon inside the cave.'),nl,nl,
-		write('First Level - Dwarf Riddle'),nl,
-		write('Second Level - Mage Tic Tac Toe'),nl,
-		write('Third Level - Killing the Dragon'),nl,nl,
 		write('You are given 100% health'),nl,nl,
 		write('LEVEL 1 - Dwarf Riddle'),nl,nl,
 		write('The dwarf blocked you from going deeper into the cave.'),nl,
@@ -56,17 +51,13 @@ ques1(G) :-	(G = 'c' -> nl,write('Your answer is correct ! The dwarf allows you 
 		write('You need to sacrifice some of your blood in order to reanswer the question.'),
 		nl,riddle).
 
-dua :-		nl,write('--------------------------------------------------------------------------'),nl,
-		write('LEVEL 2'),nl,nl,
-		write('You are now in front of The Gate of Dragon Chamber!'),nl,
-		write('You search the dungeon for a key.'),nl,
-		write('You stumble upon a treasure chest that you suspect has the key inside.'),nl,
-		write('The treasure chest is locked.'),nl,
-		write('You try to unlock the chest.'),nl,
-		write('To unlock the chest, you have 1 TRY to find the key in the boxes below...'),nl,nl,
-		write('Find the box with the k logo.'),nl,
-		write('Select the number to unlock each box'),nl,
-		ques2.
+tiga :-		write('--------------------------------------------------------------------------'),
+	        nl, write('LEVEL 3 - Killing Dragon'),nl,nl,
+		write('Finally,you reached to The Chamber of Dragon!'),nl,
+		write('You need to kill the dragon in order to save the princess!'),nl,
+		write('The diagram below is the body parts of dragon.'),nl,
+		write('You need to determine which body part of dragon that needs to be attacked in order to defeat it!'),nl,
+		write('Select the number to attack that body part of dragon.'),nl,ques2.
 
 ques2 :-	disp([1,2,3,4,5,6,7,8,9]), stt([a,a,a,a,a,a,a,a,a]).
 
@@ -75,11 +66,20 @@ disp([A,B,C,D,E,F,G,H,I]) :-
 	write([A,B,C]),write('|'),nl,
 	write('|'),
 	write([D,E,F]),write('|'),nl,	write('|'),
-        write([G,H,I]),write('|'),nl,nl.
+    write([G,H,I]),write('|'),nl,nl,
+	write('1- Left Wing'),nl,
+	write('2- Head'),nl,
+	write('3- Right Wing'),nl,
+	write('4- Left Hand'),nl,
+	write('5- Heart'),nl,
+	write('6- Right Hand'),nl,
+	write('7- Left Leg'),nl,
+	write('8- Tail'),nl,
+	write('9- Right Leg'),nl,nl.
+		
 
-stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), disp(Ulst), wins(Ulst) .
+stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), wins(Ulst) .
 
-%ctr(R) :- (((R > 0) , (R < 4)) -> strt([a,a,a,a,a,a,a,a,a]), ctr(R-1)); (R > 4 -> tiga); (R < 1, write('OUT OF MOVES!! BYE BYE'),nl,nl), false.
 
 move([a,B,C,D,E,F,G,H,I], 1, [a,B,C,D,E,F,G,H,I]).
 move([A,a,C,D,E,F,G,H,I], 2, [A,a,C,D,E,F,G,H,I]).
@@ -92,20 +92,21 @@ move([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,a,I]).
 move([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,a]).
 
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,nl, tiga); write('BYE BYE!'),false,nl,nl.
+wins(Ulst) :-	(Ulst = [_,_,_,_,k,_,_,_,_] -> write('You found the key! Proceed to last level.'),nl,nl, true); write('BYE BYE!'),false,nl,nl.
 
-tiga :- nl,write('--------------------------------------------------------------------------'),nl,
-		write('LEVEL 3'),nl,nl,
-		write('You are out of the dungeon.'),nl,
-		write('You are now almost out of the tunnel.'),nl,
-		write('On your out of the tunnel, you encounter SKELETON KING.'),nl,
-		write('To exit the tunnel, you have to win a game against the king.'),nl,
-		write('The King challenges you to a game of tictactoe.'),nl,
-		write('Defeat the King and you will have FREEDOM...'),nl,nl,
+dua :-  nl,write('------------------------------------------------------------------------------------------------------------'),
+	    nl, write('LEVEL 2 - Mage Tic Tac Toe'),nl,nl,
+		findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
+		write('You are now in the middle of the cave.'),nl,
+		write('Suddenly, you are trapped inside a magic spell'),nl,
+		write('A mage then appears.'),nl,
+		write('To escape from that magic spell, you have to win a game against the mage'),nl,
+		write('The Mage challenges you to a game of tictactoe.'),nl,
+		write('Defeat the Mage and you can get a chance to save the princess!'),nl,nl,
 		queslast,nl,nl.
 
 %start tictactoe
-queslast :-	how_to_plays, strt([a,a,a,a,a,a,a,a,a]).
+queslast :-	how_to_plays, strt([-,-,-,-,-,-,-,-,-]).
 
 win(Brd, Plyr) :- rwin(Brd, Plyr);
                   cwin(Brd, Plyr);
@@ -125,25 +126,25 @@ cwin(Brd, Plyr) :- Brd = [Plyr,_,_,Plyr,_,_,Plyr,_,_];
 dwin(Brd, Plyr) :- Brd = [Plyr,_,_,_,Plyr,_,_,_,Plyr];
 		   Brd = [_,_,Plyr,_,Plyr,_,Plyr,_,_].
 
-omove([a,B,C,D,E,F,G,H,I], Plyr, [Plyr,B,C,D,E,F,G,H,I]).
-omove([A,a,C,D,E,F,G,H,I], Plyr, [A,Plyr,C,D,E,F,G,H,I]).
-omove([A,B,a,D,E,F,G,H,I], Plyr, [A,B,Plyr,D,E,F,G,H,I]).
-omove([A,B,C,a,E,F,G,H,I], Plyr, [A,B,C,Plyr,E,F,G,H,I]).
-omove([A,B,C,D,a,F,G,H,I], Plyr, [A,B,C,D,Plyr,F,G,H,I]).
-omove([A,B,C,D,E,a,G,H,I], Plyr, [A,B,C,D,E,Plyr,G,H,I]).
-omove([A,B,C,D,E,F,a,H,I], Plyr, [A,B,C,D,E,F,Plyr,H,I]).
-omove([A,B,C,D,E,F,G,a,I], Plyr, [A,B,C,D,E,F,G,Plyr,I]).
-omove([A,B,C,D,E,F,G,H,a], Plyr, [A,B,C,D,E,F,G,H,Plyr]).
+omove([-,B,C,D,E,F,G,H,I], Plyr, [Plyr,B,C,D,E,F,G,H,I]).
+omove([A,-,C,D,E,F,G,H,I], Plyr, [A,Plyr,C,D,E,F,G,H,I]).
+omove([A,B,-,D,E,F,G,H,I], Plyr, [A,B,Plyr,D,E,F,G,H,I]).
+omove([A,B,C,-,E,F,G,H,I], Plyr, [A,B,C,Plyr,E,F,G,H,I]).
+omove([A,B,C,D,-,F,G,H,I], Plyr, [A,B,C,D,Plyr,F,G,H,I]).
+omove([A,B,C,D,E,-,G,H,I], Plyr, [A,B,C,D,E,Plyr,G,H,I]).
+omove([A,B,C,D,E,F,-,H,I], Plyr, [A,B,C,D,E,F,Plyr,H,I]).
+omove([A,B,C,D,E,F,G,-,I], Plyr, [A,B,C,D,E,F,G,Plyr,I]).
+omove([A,B,C,D,E,F,G,H,-], Plyr, [A,B,C,D,E,F,G,H,Plyr]).
 
-xmove([a,B,C,D,E,F,G,H,I], 1, [x,B,C,D,E,F,G,H,I]).
-xmove([A,a,C,D,E,F,G,H,I], 2, [A,x,C,D,E,F,G,H,I]).
-xmove([A,B,a,D,E,F,G,H,I], 3, [A,B,x,D,E,F,G,H,I]).
-xmove([A,B,C,a,E,F,G,H,I], 4, [A,B,C,x,E,F,G,H,I]).
-xmove([A,B,C,D,a,F,G,H,I], 5, [A,B,C,D,x,F,G,H,I]).
-xmove([A,B,C,D,E,a,G,H,I], 6, [A,B,C,D,E,x,G,H,I]).
-xmove([A,B,C,D,E,F,a,H,I], 7, [A,B,C,D,E,F,x,H,I]).
-xmove([A,B,C,D,E,F,G,a,I], 8, [A,B,C,D,E,F,G,x,I]).
-xmove([A,B,C,D,E,F,G,H,a], 9, [A,B,C,D,E,F,G,H,x]).
+xmove([-,B,C,D,E,F,G,H,I], 1, [x,B,C,D,E,F,G,H,I]).
+xmove([A,-,C,D,E,F,G,H,I], 2, [A,x,C,D,E,F,G,H,I]).
+xmove([A,B,-,D,E,F,G,H,I], 3, [A,B,x,D,E,F,G,H,I]).
+xmove([A,B,C,-,E,F,G,H,I], 4, [A,B,C,x,E,F,G,H,I]).
+xmove([A,B,C,D,-,F,G,H,I], 5, [A,B,C,D,x,F,G,H,I]).
+xmove([A,B,C,D,E,-,G,H,I], 6, [A,B,C,D,E,x,G,H,I]).
+xmove([A,B,C,D,E,F,-,H,I], 7, [A,B,C,D,E,F,x,H,I]).
+xmove([A,B,C,D,E,F,G,-,I], 8, [A,B,C,D,E,F,G,x,I]).
+xmove([A,B,C,D,E,F,G,H,-], 9, [A,B,C,D,E,F,G,H,x]).
 
 
 
@@ -162,11 +163,12 @@ how_to_plays :-
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
 
-strt(Brd) :- win(Brd, x), write('You win!'), true.
-strt(Brd) :- win(Brd, o), write('King win!'), false.
-strt(Brd) :- read(N),
+strt(Brd) :- win(Brd, x), write('You win!'), tiga.
+strt(Brd) :- win(Brd, o), write('King win!'), healthdeduction,dua.
+strt(Brd) :- read(N),nl, write('User :'),nl,
   xplay(Brd, N, NewBrd),
   dispa(NewBrd),
+  write('Computer : '),nl,
   oplay(NewBrd, NewnewBrd),
   dispa(NewnewBrd),
   strt(NewnewBrd).
