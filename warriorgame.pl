@@ -22,13 +22,14 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 
 scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('You dont deserve to be knight!'),nl,
-		write('The princess is died because of you! Bye!'),nl,sleep(2),halt);
+		write('The princess is died because of you!'),nl,write('Bye Bye!'),nl,nl,
+		write('Do you want to play again?(y/n)'),nl,read(P),rep(P));
 		(X = 'a' -> nl,write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,nl,
 		lvl1, read(Y), ques1(Y)).
 
-lvl1 :-		write('--------------------------------------------------------------------------'),nl,
+lvl1 :-		write('----------------------------------------------------------------------------------------------------------------'),nl,
 		nl, write('LEVEL 1 - Dwarf Riddle'),nl,nl,
 		write('Now you have entered the cave'),nl,
 		write('You are given 100% health'),nl,nl,
@@ -158,7 +159,7 @@ oplay(Brd,NewBrd) :-
 
 
 
-lvl3 :-		nl,write('--------------------------------------------------------------------------'),
+lvl3 :-		nl,write('----------------------------------------------------------------------------------------------------------------'),
 	        nl, write('LEVEL 3 - Killing Dragon'),nl,nl,
 		write('Finally,you reached to The Chamber of Dragon!'),nl,
 		write('You need to kill the dragon in order to save the princess!'),nl,
@@ -209,5 +210,6 @@ wins(Ulst) :-	(Ulst = [_,_,_,_,kk,_,_,_,_] -> nl,write('You have hit the crucial
 congrat :- write('The princess is saved'),nl,
 	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
 	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),nl,nl,
+	   write('THE END'),nl,nl,
 	   write('Do you want to play again ? (y/n)'),nl,
 	   read(P),rep(P),nl,true.
