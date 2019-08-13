@@ -4,7 +4,11 @@ head([H|_], H).
 
 play      :-	retractall(health(_, _)), assertz(health(1, 100)), how_to_play, read(X), scene(X).
 
-healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20,(C > 0 -> retractall(health(_, _)), assertz(health(1, C)));(false).
+healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20, retractall(health(_, _)), assertz(health(1, C)).
+
+checkhealth(B) :- (B > 0,true);
+                  (B=<0,nl,write('You are out of blood'),nl,write('You sacrifice will always be remember by your princess'),nl,
+		   nl,write('Do you want to play again?(y/n)'),nl,read(P),rep(P)).
 
 how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 		write('Rules.'),nl,
@@ -18,7 +22,7 @@ how_to_play :-  write('Welcome to Warrior Adventure!'),nl,nl,
 
 scene(X) :-	(X = 'b' -> nl,write('You are such a coward!'),nl,
 		write('You dont deserve to be knight!'),nl,
-		write('The princess is died because of you! Bye!'),false);
+		write('The princess is died because of you! Bye!'),nl,sleep(2),halt);
 		(X = 'a' -> nl,write('There are three levels that you need to pass in order to save the princess'),nl,
 		write('Each level has different challenge, you may get hurt in the journey of rescuing.'),nl,
 		write('Goodluck!'),nl,nl,
@@ -32,8 +36,9 @@ lvl1 :-		write('----------------------------------------------------------------
 		write('However, he will allow you to pass if you solve a RIDDLE..'),nl,
 		riddle.
 
-riddle :-	nl, write('The riddle goes--'),nl,nl,
-		findall(A, health(1, A), L), head(L, B), write('Health = '), write(B), nl,
+riddle :-	findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl,
+	        write('The riddle goes--'),nl,nl,
+		write('Health = '), write(B), nl,
 		write('Which dragon is used by Harry Potter during Triwizard Tournament?'),nl,
 		write('a. Antipodean Opaleye'),nl,
 		write('b. Norwegian Ridgeback'),nl,
@@ -100,7 +105,7 @@ xmove([A,B,C,D,E,-,G,H,I], 6, [A,B,C,D,E,x,G,H,I]).
 xmove([A,B,C,D,E,F,-,H,I], 7, [A,B,C,D,E,F,x,H,I]).
 xmove([A,B,C,D,E,F,G,-,I], 8, [A,B,C,D,E,F,G,x,I]).
 xmove([A,B,C,D,E,F,G,H,-], 9, [A,B,C,D,E,F,G,H,x]).
-%xmove(Brd, _, Brd) :- write('Illegal move.'), nl.
+
 
 
 dispa([A,B,C,D,E,F,G,H,I]) :-
@@ -114,17 +119,16 @@ dispa([A,B,C,D,E,F,G,H,I]) :-
 %go :- how_to_play, strt([a,a,a,a,a,a,a,a,a]).
 
 how_to_plays :-
-  findall(A, health(1, A), L), head(L, B),nl,nl, write('Health = '), write(B), nl,
+  findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl, write('Health = '), write(B), nl,
   write('You are x player, enter positions followed by a period.'),
   nl,
   dispa([1,2,3,4,5,6,7,8,9]).
 
 strt(Brd) :- win(Brd, x), write('You win!'),nl,write('You escaped the magic spell.'),nl,write('You can now head to The Chamber of Dragon to save your pricess.'),true, lvl3.
 strt(Brd) :- win(Brd, o), write('Mage win!'),healthdeduction,nl,write('You are hurt by the magic spell.'),nl,write('However, the mage offers you another chance to get rid of the magic spell.'),ques2.
-strt(Brd) :- read(N),nl, write('User :'),nl,
+strt(Brd) :- read(N),
   xplay(Brd, N, NewBrd),
   dispa(NewBrd),
-  write('Computer : '),nl,
   oplay(NewBrd, NewnewBrd),
   dispa(NewnewBrd),
   strt(NewnewBrd).
@@ -162,23 +166,25 @@ lvl3 :-		write('----------------------------------------------------------------
 		write('You need to determine which is the crucial body part of dragon that needs to be attacked in order to defeat it!'),nl,
 		write('Select the number to attack that body part of dragon.'),nl,ques3.
 
-ques3 :-	nl,findall(A, health(1, A), L), head(L, B),nl,nl, write('Health = '), write(B), nl,disp([1,2,3,4,5,6,7,8,9]), stt([lw,hd,rw,lh,ht,rh,ll,tl,rl]).
+ques3 :-	nl,findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl, write('Health = '), write(B), nl,disp([1,2,3,4,5,6,7,8,9]),nl,
+	        nl,write('1- Left Wing'),nl,
+		write('2- Head'),nl,
+		write('3- Right Wing'),nl,
+		write('4- Left Hand'),nl,
+		write('5- Heart'),nl,
+		write('6- Right Hand'),nl,
+		write('7- Left Leg'),nl,
+		write('8- Tail'),nl,
+		write('9- Right Leg'),nl,nl,
+		stt([lw,hd,rw,lh,ht,rh,ll,tl,rl]).
 
 disp([A,B,C,D,E,F,G,H,I]) :-
 	nl,write('|'),
 	write([A,B,C]),write('|'),nl,
 	write('|'),
 	write([D,E,F]),write('|'),nl,write('|'),
-	write([G,H,I]),write('|'),nl,nl,
-	write('1- Left Wing'),nl,
-	write('2- Head'),nl,
-	write('3- Right Wing'),nl,
-	write('4- Left Hand'),nl,
-	write('5- Heart'),nl,
-	write('6- Right Hand'),nl,
-	write('7- Left Leg'),nl,
-	write('8- Tail'),nl,
-	write('9- Right Leg'),nl,nl.
+	write([G,H,I]),write('|'),nl.
+
 
 
 stt(Lst) :- write('Your move..'),nl,nl, read(Z), move(Lst, Z, Ulst), disp(Ulst), wins(Ulst) .
@@ -196,12 +202,12 @@ move([A,B,C,D,E,F,G,H,rl], 9, [A,B,C,D,E,F,G,H,xx]).
 
 
 rep(P) :- (P = 'y' -> nl,play,nl);
-           P = 'n' -> write('Thank you Bye bye !'),false.
+           P = 'n' -> write('Thank you Bye bye !'),nl,sleep(2),halt.
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,kk,_,_,_,_] -> write('You have killed the dragon.'),nl,congrat); write('You did not hit the crucial part'),nl,write('You are hit by the dragon'),healthdeduction,nl,ques3.
+wins(Ulst) :-	(Ulst = [_,_,_,_,kk,_,_,_,_] -> nl,write('You have hit the crucial part and killed the dragon.'),nl,congrat); nl,write('You did not hit the crucial part'),nl,write('You are hit by the dragon'),healthdeduction,nl,ques3.
 
 congrat :- write('The princess is saved'),nl,
 	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
 	   write('Since then, you have a beautiful life with princess for your entire life in that rewarded island.'),nl,nl,
-	   write('Do you want to play again ? y or n'),nl,
+	   write('Do you want to play again ? (y/n)'),nl,
 	   read(P),rep(P),nl,true.
