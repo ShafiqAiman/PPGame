@@ -1,10 +1,16 @@
+
 %MyGame
 
 head([H|_], H).
 
-play      :-	retractall(health(_, _)), assertz(health(1, 100)), how_to_play, read(X), scene(X).
+play      :-	retractall(health(_, _)),retractall(health1(_, _)), assertz(health(1, 100)),assertz(health1(1, 100)), how_to_play, read(X), scene(X).
 
 healthdeduction :- findall(A, health(1, A), L), head(L, B), C is B - 20, retractall(health(_, _)), assertz(health(1, C)).
+
+dragonhealthmajor :- findall(A, health1(1, A), L), head(L, B), C is B - 40, retractall(health1(_, _)), assertz(health1(1, C)).
+
+dragonhealthminor :- findall(A, health1(1, A), L), head(L, B), C is B - 20, retractall(health1(_, _)), assertz(health1(1, C)).
+
 
 checkhealth(B) :- (B > 0,true);
                   (B=<0,nl,write('You are out of blood'),nl,write('You sacrifice will always be remember by your princess'),nl,
@@ -55,6 +61,7 @@ ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
 		healthdeduction,write('You have given a wrong answer.'),nl,
 		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,nl,
 		riddle).
+
 
 lvl2 :-		nl,write('------------------------------------------------------------------------------------------------------------'),
 	        nl, write('LEVEL 2 - Mage Tic Tac Toe'),nl,nl,
@@ -167,7 +174,9 @@ lvl3 :-		nl,write('-------------------------------------------------------------
 		write('You need to determine which is the crucial body part of dragon that needs to be attacked in order to defeat it!'),nl,
 		write('Select the number to attack that body part of dragon.'),nl,ques3.
 
-ques3 :-	nl,findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl, write('Health = '), write(B), nl,disp([1,2,3,4,5,6,7,8,9]),nl,
+ques3 :-	nl,findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl, write('Health = '), write(B),
+		findall(C, health1(1, C), L2), head(L2, D),nl,write('Dragon Health = '),write(D),nl,
+		nl,disp([1,2,3,4,5,6,7,8,9]),nl,
 	        nl,write('1- Left Wing'),nl,
 		write('2- Head'),nl,
 		write('3- Right Wing'),nl,
@@ -205,7 +214,12 @@ move([A,B,C,D,E,F,G,H,rl], 9, [A,B,C,D,E,F,G,H,xx]).
 rep(P) :- (P = 'y' -> nl,play,nl);
            P = 'n' -> write('Thank you Bye bye !'),nl,sleep(2),halt.
 
-wins(Ulst) :-	(Ulst = [_,_,_,_,kk,_,_,_,_] -> nl,write('You have hit the crucial part and killed the dragon.'),nl,congrat); nl,write('You did not hit the crucial part'),nl,write('You are hit by the dragon'),healthdeduction,nl,ques3.
+wins(Ulst) :-	(Ulst = [_,_,_,_,kk,_,_,_,_] -> nl,write('You have hit the crucial part of the dragon.'),nl,
+		 write('The dragon health is deducted'),nl,dragonhealthmajor,healthdeduction,dragon); nl,
+		 write('You did not hit the crucial part'),nl,write('The dragon health is deducted'),nl,dragonhealthminor,healthdeduction,dragon.
+
+dragon :- nl,findall(A, health1(1, A), L), head(L, B),(B > 0 -> write('The dragon attacked you back. Your health is deducted.'),ques3);
+(nl,nl,write('----------------------------------------------------------------------------------------------------------------'),nl,write('You killed the dragon!'),nl,write('----------------------------------------------------------------------------------------------------------------'),nl,nl,congrat).
 
 congrat :- write('The princess is saved'),nl,
 	   write('Due to your braveness the king award you an island and allow you to marry the princess'),nl,
@@ -213,3 +227,4 @@ congrat :- write('The princess is saved'),nl,
 	   write('THE END'),nl,nl,
 	   write('Do you want to play again ? (y/n)'),nl,
 	   read(P),rep(P),nl,true.
+
