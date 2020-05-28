@@ -159,7 +159,7 @@ strt(Brd) :- win(Brd, x), write('You win!'),nl,write('You escaped the magic spel
 strt(Brd) :- win(Brd, o), write('Mage win!'),healthdeduction,nl,write('You are hurt by the magic spell.'),nl,write('However, the mage offers you another chance to get rid of the magic spell.'),ques2.
 strt(Brd) :- write('You :'),read(N),nl,
   xplay(Brd, N, NewBrd),
-  dispa(NewBrd),write('mage : '),nl,
+  dispa(NewBrd),write('Mage : '),nl,
   oplay(NewBrd, NewnewBrd),
   dispa(NewnewBrd),
   strt(NewnewBrd).

@@ -53,6 +53,7 @@ riddle :-	findall(A, health(1, A), L), head(L, B),nl,checkhealth(B),nl,
 		write('d. Ukrainian Ironbelly'),nl,
 		write('Your move?'),nl,nl,
 		read(G),ques1(G).
+%hi
 
 ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
 		 write('You have acquired the ultimate weapon from the mage.'),nl,
@@ -61,7 +62,6 @@ ques1(G) :-	(G = 'c' -> write('You are correct.'),nl,
 		healthdeduction,write('You have given a wrong answer.'),nl,
 		write('You need to sacrifice some of your blood in order to reanswer the question.'),nl,nl,
 		riddle).
-
 
 lvl2 :-		nl,write('------------------------------------------------------------------------------------------------------------'),
 	        nl, write('LEVEL 2 - Mage Tic Tac Toe'),nl,nl,
